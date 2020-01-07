@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ETL Documentation</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="etl-documentation">ETL Documentation</h1>
+<h2 id="etl-summary">ETL Summary</h2>
+<ul>
+<li>
+<p>There are 14 ETL syncs which would be scheduled using a cron named <strong>sync-all-icici-data</strong>.</p>
+</li>
+<li>
+<p>An Entry will be created in <strong>cron_log</strong> table</p>
+<ul>
+<li><strong>cron_job_name</strong> will be <strong>sync-all-icici-data</strong></li>
+<li><strong>cron_status</strong>
+<ul>
+<li>2: Error In Cron</li>
+<li>3: Finished Successfully</li>
+</ul>
+</li>
+<li><strong>log</strong> will show any error in the cron</li>
+<li><strong>start_date</strong> shows start date of Cron job</li>
+<li><strong>end_date</strong> shows end date of Cron job</li>
+</ul>
+</li>
+<li>
+<p>An Entry will be created in <strong>data_sync_log</strong> table for each ETL sync which shows the summary of ETL job</p>
+<ul>
+<li><strong>source_name</strong> will be <strong>ICICI</strong> in all cases</li>
+<li><strong>task_name</strong> shows the ETL Name</li>
+<li><strong>record_count</strong> shows the number of record in source table</li>
+<li><strong>success_count</strong> shows the distict number of records succeded</li>
+<li><strong>failue_count</strong> shows the distict number of records failed
+<ul>
+<li>Each failed record will have an entry in <strong>etl_error_log</strong> with the failed record and reason in <strong>error_message</strong> column</li>
+</ul>
+</li>
+<li><strong>status</strong> will be 0 in case of <code>failue_count &gt; 0 </code> else it will be <code>1</code></li>
+<li><strong>start_date</strong> shows start date of ETL job</li>
+<li><strong>end_date</strong> shows end date of ETL job</li>
+</ul>
+</li>
+</ul>
+<h2 id="manually-running-a-etl-job">Manually Running a ETL Job</h2>
+<p>For running an ETL manually enter in the console mode using</p>
+<pre><code><code><div>node . --console
+</div></code></code></pre>
+<p>then run any ETL from the list shown below -</p>
+<pre><code class="language-javascript"><div>app.engines.IciciSyncForFamily.syncFamilyData()
+app.engines.IciciSyncForClient.syncClientData()
+app.engines.IciciSyncForInvestorDetails.syncInvestorDetailsData()
+app.engines.IciciSyncForAccount.syncAccountData()
+app.engines.IciciSyncForInstrument.syncInstrumentData()
+app.engines.IciciSyncForTransaction.syncTransactionData()
+app.engines.IciciSyncForHolding.syncHoldingData()
+app.engines.IciciSyncForRmDetails.syncRelationshipManagerDetailsData()
+app.engines.IciciSyncForRmClientEntityMapping.syncRmClientEntityMapping()
+app.engines.IciciSyncForLoan.syncLoanDeails()
+app.engines.IciciSyncForInsurance.syncInsuranceDeails()
+app.engines.IciciSyncForCreditCard.syncCreditCardDeails()
+app.engines.IciciSyncForBankBalance.syncBankBalanceDeails()
+app.engines.IciciSyncForDeposit.syncDepositDeails()
+</div></code></pre>
+
+    </body>
+    </html>
